@@ -637,7 +637,7 @@
       target: null, // { pitch, pc, name }
       rangeMode: "one",
       notesCount: 12,
-      inputMode: "buttons"
+      inputMode: "keyboard"
     };
   
     // ---------------- UI helpers ----------------
@@ -1226,7 +1226,7 @@
     }
     function loadInitialInput() {
       const saved = localStorage.getItem(LS_KEY_INPUT);
-      return saved ? String(saved) : "buttons"; 
+      return saved ? String(saved) : "keyboard"; 
     }
   
     function loadInitialName() {
