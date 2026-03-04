@@ -954,7 +954,7 @@
       nextBtn.disabled = !canNext;
       setSyncedClass(nextBtn, "nextReady", canNext);
   
-      beginBtn.textContent = state.started ? "Restart Game" : "Begin Game";
+      beginBtn.textContent = state.started ? "End/Restart Game" : "Begin Game";
       setSyncedClass(beginBtn, "pulse", !state.started);
       beginBtn.classList.toggle("primary", !state.started);
       beginBtn.classList.toggle("isRestart", state.started);
