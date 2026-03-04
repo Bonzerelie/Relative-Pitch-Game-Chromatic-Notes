@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Identifying Chromatic Notes</title>
+<link href="style.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="app">
+<header class="hero">
+<div aria-label="Identifying Chromatic Notes" class="app-titleWrap titleModeWide" id="titleWrap">
+<img alt="Identifying Chromatic Notes" class="app-titleImg app-titleImgWide" id="titleImgWide" src="images/title.png"/>
+<img alt="Identifying Chromatic Notes" class="app-titleImg app-titleImgWrapped" id="titleImgWrapped" src="images/titlewrapped.png"/>
+</div>
+</header>
+
+<section aria-label="top actions" class="controlsPanel controlsPanelActions">
+<div class="control">
+<div class="actionsRow actionsCentered">
+  <div class="actionsStack">
+    <div class="actionsRow actionsCentered">
+      <button disabled="" id="refTonicBtn" type="button">Reference - Play C4</button>
+      <button id="settingsBtn" type="button">Game Settings</button>
+    </div>
+
+    <div class="actionsRow actionsCentered">
+      <button disabled="" id="replayBtn" type="button">Replay Note</button>
+      <button disabled="" id="nextBtn" type="button">Next</button>
+      <button id="infoBtn" type="button">Information</button>
+      <button class="primary pulse" id="beginBtn" type="button">Begin Game</button>
+    </div>
+
+    </div>
+  </div>
+</div>
+<div aria-live="polite" class="feedbackLine" id="feedbackOut">Press <strong>Begin Game</strong> to start.</div>
+</section>
+
+<section aria-label="answers" class="controlsPanel controlsPanelActions">
+<div class="control">
+  <div aria-label="note answers" class="answerGrid" id="answerButtons"></div>
+  <div aria-label="virtual keyboard answers" class="answerKeyboard hidden" id="answerKeyboard"></div>
+</div>
+</section>
+
+<section aria-label="status" class="statusPanel">
+<div class="statusRow">
+<div aria-label="Scale keyboard (C3 to B5)" class="scaleMiniWrap">
+<div aria-label="Scale display" class="mount miniMount miniMountInCard" id="scaleMount"></div>
+</div>
+<div class="statusText">
+<div class="phaseTitle" id="phaseTitle">Ready</div>
+</div>
+</div>
+</section>
+
+<section aria-label="score" class="analysis">
+<div class="analysisGrid">
+<div class="analysisCard scoreCardNarrow">
+<div class="analysisLabel">Score Card</div>
+<div class="scoreMeta" id="scoreMeta">Range: — • Notes: —</div>
+
+<div class="scoreActions" style="margin-bottom: 16px;">
+  <input id="playerNameInput" type="text" inputmode="text" autocomplete="name" maxlength="32" placeholder="Click to enter your name" />
+  <button id="downloadScorecardBtn" type="button">Download Scorecard</button>
+</div>
+
+<div class="scoreGrid scoreGridVertical">
+<div class="scoreItem"><span class="scoreK">Correct</span><span class="scoreV" id="correctOut">0</span></div>
+<div class="scoreItem"><span class="scoreK">Incorrect</span><span class="scoreV" id="incorrectOut">0</span></div>
+<div class="scoreItem"><span class="scoreK">Total Questions Asked</span><span class="scoreV" id="totalOut">0</span></div>
+<div class="scoreItem"><span class="scoreK">Total Percentage Correct</span><span class="scoreV" id="accuracyOut">0.0%</span></div>
+</div>
+
+<div class="analysisLabel" style="margin-top: 16px;">Per Note:</div>
+<div class="perNoteGrid" id="perNoteOut"></div>
+
+</div>
+</div>
+</section>
+
+<div aria-labelledby="introTitle" aria-modal="true" class="modal" id="introModal" role="dialog">
+<div class="modalCard">
+  <img class="app-titleImg" src="images/title.png">
+  <div style="display: flex; justify-content: center; gap: 24px; margin-top: 16px; margin-bottom: 8px; flex-wrap: wrap;">
+    
+    <div class="inlineControl">
+      <div class="settingsLabel">Note Range</div>
+      <select aria-label="Select note range for the game" class="compactSelect compactSelectAuto" id="introRangeSelect"></select>
+    </div>
+
+    <div class="inlineControl">
+      <div class="settingsLabel">Included Notes</div>
+      <select aria-label="Select number of notes to include" class="compactSelect compactSelectAuto" id="introNotesSelect"></select>
+    </div>
+
+    <div class="inlineControl">
+      <div class="settingsLabel">Input Mode</div>
+      <select aria-label="Select input mode" class="compactSelect compactSelectAuto" id="introInputSelect"></select>
+    </div>
+
+  </div>
+  <div class="modalActions modalActionsCentered" style="margin-bottom: 16px;">
+    <button class="primary pulse" id="introBeginBtnTop" type="button">Continue To Game</button>
+  </div>
+<div class="modalTitle" id="introTitle">How to Play</div>
+<div class="modalBody">
+<p>In this game, you will test your absolute or relative pitch recognition across the entire 12-tone chromatic scale. The reference point for this game is always C.
+
+You’ll hear a random chromatic note from within your chosen range. Identify the note using the answer buttons or the virtual keyboard.
+        
+Use <strong>Replay Note</strong> or <strong>'R'</strong> to hear the note again, and <strong>Next</strong> or <strong>Space</strong> for the next note. You can use the <strong>reference</strong> button to hear middle C (C4) at any time to re-orient your ear. You can change the settings anytime in the <strong>Game Settings</strong> menu.
+
+You can also download a score card .png should you like!</p>
+</div>
+<div class="modalActions modalActionsCentered" style="margin-bottom: 2px;">
+<button class="primary pulse" id="introBeginBtn" type="button">Continue To Game</button>
+</div>
+</div>
+</div>
+
+<div aria-labelledby="settingsTitle" aria-modal="true" class="modal hidden" id="settingsModal" role="dialog">
+  <div class="modalCard">
+    <div class="modalTitle" id="settingsTitle">Game Settings ⚙️</div>
+    <div class="modalBody">
+      <p style="margin:0 0 12px;">Choose your note range, how many notes to include, and your preferred input style. Note, applying new settings will restart the game and reset the score!</p>
+      <div class="settingsGrid">
+        <div class="settingsLabel">Note Range</div>
+        <select aria-label="Select note range for the game" class="compactSelect compactSelectAuto" id="settingsRangeSelect"></select>
+
+        <div class="settingsLabel">Included Notes</div>
+        <select aria-label="Select number of notes to include" class="compactSelect compactSelectAuto" id="settingsNotesSelect"></select>
+
+        <div class="settingsLabel">Input Mode</div>
+        <select aria-label="Select input mode" class="compactSelect compactSelectAuto" id="settingsInputSelect"></select>
+      </div>
+    </div>
+    <div class="modalActions">
+      <button class="confirmPrimary" id="settingsRestartBtn" type="button">Restart Game With New Settings</button>
+      <button id="settingsCancelBtn" type="button">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div aria-labelledby="scoreModalTitle" aria-modal="true" class="modal hidden" id="scoreModal" role="dialog">
+  <div class="modalCard">
+    <div class="modalTitle" id="scoreModalTitle" style="margin-bottom: 16px;">Current game ended - here's your scorecard!</div>
+    <div class="modalBody">
+      
+      <div class="analysisGrid" style="width: 100%;">
+        <div class="analysisCard scoreCardNarrow">
+          <div class="analysisLabel">Score Card</div>
+          <div class="scoreMeta" id="modalScoreMeta">Range: — • Notes: —</div>
+
+          <div class="scoreActions" style="margin-bottom: 16px;">
+            <input id="modalPlayerNameInput" type="text" inputmode="text" autocomplete="name" maxlength="32" placeholder="Click to enter your name" />
+            <button id="modalDownloadScorecardBtn" type="button">Download Scorecard</button>
+          </div>
+
+          <div class="scoreGrid scoreGridVertical">
+            <div class="scoreItem"><span class="scoreK">Correct</span><span class="scoreV" id="modalCorrectOut">0</span></div>
+            <div class="scoreItem"><span class="scoreK">Incorrect</span><span class="scoreV" id="modalIncorrectOut">0</span></div>
+            <div class="scoreItem"><span class="scoreK">Total Questions Asked</span><span class="scoreV" id="modalTotalOut">0</span></div>
+            <div class="scoreItem"><span class="scoreK">Total Percentage Correct</span><span class="scoreV" id="modalAccuracyOut">0.0%</span></div>
+          </div>
+
+          <div class="analysisLabel" style="margin-top: 16px;">Per Note:</div>
+          <div class="perNoteGrid" id="modalPerNoteOut"></div>
+          
+          <div class="scoreFooter">Identifying Chromatic Notes</div>
+
+        </div>
+      </div>
+
+    </div>
+    <div class="modalActions modalActionsCentered" style="margin-top: 16px;">
+      <button class="primary pulse" id="scoreModalContinueBtn" type="button">Continue</button>
+    </div>
+  </div>
+</div>
+
+<div aria-labelledby="infoTitle" aria-modal="true" class="modal hidden" id="infoModal" role="dialog">
+<div class="modalCard">
+<div class="modalTitle" id="infoTitle">Information</div>
+<div class="modalBody" id="infoBody">
+  <p>In this game, you will test your absolute or relative pitch recognition across the entire 12-tone chromatic scale. The reference point for this game is always C.
+
+    You’ll hear a random chromatic note from within your chosen range. Identify the note using the answer buttons or the virtual keyboard.
+    
+    Use <strong>Replay Note</strong> or <strong>'R'</strong> to hear the note again, and <strong>Next</strong> or <strong>Space</strong> for the next note. You can use the <strong>reference</strong> button to hear middle C (C4) at any time to re-orient your ear. You can change the settings anytime in the <strong>Game Settings</strong> menu.
+
+You can also download a score card .png should you like!</p>
+<div class="modalActions">
+<button class="primary" id="infoClose" type="button">Close</button>
+</div>
+</div>
+</div>
+<script src="script.js"></script>
+</div></body>
+</html>
